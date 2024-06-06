@@ -1,7 +1,7 @@
-const ceasarCipher = require("../caesarCipher.js");
+import caesarCipher from "../caesarCipher";
 
 test("Shift factor or 1", () => {
-  expect(caesarCipher("abcdefg", 1)).toBe("BCDEFGH");
+  expect(caesarCipher("abcdefg", 1)).toBe("bcdefgh");
 });
 
 test("Wrapping from z to a", () => {
@@ -10,6 +10,10 @@ test("Wrapping from z to a", () => {
 
 test("Case preservation", () => {
   expect(caesarCipher("HeLLo", 3)).toBe("KhOOr");
+});
+
+test("Large number shift", () => {
+  expect(caesarCipher("abcd", 103)).toBe("zabc");
 });
 
 test("Unchanged punctuation", () => {

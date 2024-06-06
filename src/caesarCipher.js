@@ -1,18 +1,19 @@
-export default function ceasarCipher(string, number) {
-  if (number < 0) {
-    throw new Error("Shift value must be greater than 0.");
-  }
+/**
+ *
+ * @param {*} string
+ * @param {*} number
+ * @returns
+ */
+function ceasarCipher(string, number) {
   if (number === 0) {
     return string;
   }
   // find shift result if number is large.
-  number = number % 25;
+  number = number % 26;
   // only allow positive shift numbers.
   // Convert string to array and unicode.
   let charArray = toUnicode(string);
   let resultArray = [];
-  let result;
-
   // loop through array and do following:
   for (let i = 0; i < charArray.length; i++) {
     let newValue;
@@ -20,24 +21,32 @@ export default function ceasarCipher(string, number) {
     if (charArray[i] >= 65 && charArray[i] <= 90) {
       newValue = charArray[i] + number;
       if (newValue > 90) {
-        newValue = 90 - newValue + 65;
+        newValue = newValue - 26;
+      }
+      if (newValue < 65) {
+        newValue = newValue + 26;
       }
       resultArray.push(newValue);
-    } else if (charArray[i] >= 97 && charArray[i <= 122]) {
+    } else if (charArray[i] >= 97 && charArray[i] <= 122) {
       newValue = charArray[i] + number;
       if (newValue > 122) {
-        newValue = 122 - newValue + 97;
+        newValue = newValue - 26;
+      }
+      if (newValue < 97) {
+        newValue = newValue + 26;
       }
       resultArray.push(newValue);
     } else {
       resultArray.push(charArray[i]);
     }
-
     //loop through charArray and reconstruct string.
   }
-  charArray.forEach((code) => {
+  let result = "";
+  //console.log("result Array:", resultArray);
+  resultArray.forEach((code) => {
     result += String.fromCodePoint(code);
   });
+  //console.log("result:", result);
   return result;
   // if value is between 65-90 then it's a lower case value.
   // if value is between 97 - 122 then its an uppercase value.
@@ -52,7 +61,9 @@ function toUnicode(string) {
   for (let i = 0; i < string.length; i++) {
     array.push(string.charCodeAt(i));
   }
+  //console.log("unicode array:", array);
   return array;
 }
 
+export default ceasarCipher;
 //console.log(toUnicode("ABCDE"));
